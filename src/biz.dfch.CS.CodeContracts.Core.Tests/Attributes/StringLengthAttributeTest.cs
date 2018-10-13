@@ -15,21 +15,32 @@
  */
 
 using System;
+using System.Diagnostics.Contracts;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 using biz.dfch.CS.CodeContracts.Core.Attributes;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace biz.dfch.CS.CodeContracts.Core.Tests.Attributes
 {
     [TestClass]
-    public class NotNullAttributeTest
+    public class StringLengthAttributeTest
     {
-        [TestMethod]
-        public void ValidatingStringReturnsTrue()
+        [DataTestMethod]
+        [DataRow((uint) 0, (uint) 10)]
+        [DataRow((uint) 0, (uint) 11)]
+        [DataRow((uint) 1, (uint) 10)]
+        [DataRow((uint) 10, (uint) 10)]
+        [DataRow((uint) 1, (uint) 11)]
+        [DataRow((uint)0, uint.MaxValue)]
+        public void ValidatingStringLengthReturnsTrue(uint minLength, uint maxLength)
         {
             // Arrange
-            var value = "arbitraryString";
-            var sut = new NotNullAttribute();
-
+            var value = "1234567890";
+            var sut = new StringLengthAttribute(minLength: minLength, maxLength: maxLength);
+            
             // Act
             var result = sut.TryValidate(value);
 
@@ -37,43 +48,18 @@ namespace biz.dfch.CS.CodeContracts.Core.Tests.Attributes
             Assert.IsTrue(result);
         }
 
-        [TestMethod]
-        public void ValidatingNullStringReturnsFalse()
+        [DataTestMethod]
+        [DataRow((uint)0, (uint)9)]
+        [DataRow((uint)11, (uint)10)]
+        [DataRow(uint.MaxValue, (uint)10)]
+        [DataRow((uint) 0, uint.MinValue)]
+        public void ValidatingStringLengthReturnsFalse(uint minLength, uint maxLength)
         {
             // Arrange
-            var value = default(string);
-            var sut = new NotNullAttribute();
+            var value = "1234567890";
+            var sut = new StringLengthAttribute(minLength: minLength, maxLength: maxLength);
 
             // Act
-            var result = sut.TryValidate(value);
-
-            // Assert
-            Assert.IsFalse(result);
-        }
-
-        [TestMethod]
-        public void ValidatingObjectReturnsTrue()
-        {
-            // Arrange
-            var value = new object();
-            var sut = new NotNullAttribute();
-
-            // Act
-            var result = sut.TryValidate(value);
-
-            // Assert
-            Assert.IsTrue(result);
-        }
-
-        [TestMethod]
-        public void ValidatingNullObjectReturnsFalse()
-        {
-            // Arrange
-            var value = default(object);
-            var sut = new NotNullAttribute();
-
-            // Act
-            // ReSharper disable once ExpressionIsAlwaysNull
             var result = sut.TryValidate(value);
 
             // Assert

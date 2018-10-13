@@ -21,14 +21,37 @@ namespace biz.dfch.CS.CodeContracts.Core.Attributes
 {
     public class StringLengthAttribute : ParameterValidationAttributeBase
     {
-        public uint MinLength { get; } = 0;
-        public uint MaxLength { get; } = int.MaxValue;
+        public uint MinLength { get; }
+        public uint MaxLength { get; }
 
-        public override Type Type => typeof(string);
+        public StringLengthAttribute(string message)
+            : this(uint.MinValue, uint.MaxValue, message)
+        {
+            // N/A
+        }
+
+        public StringLengthAttribute(uint minLength, uint maxLength)
+        {
+            Type = typeof(string);
+
+            MinLength = minLength;
+            MaxLength = maxLength;
+        }
+
+        public StringLengthAttribute(uint minLength, uint maxLength, string message)
+            : base(message)
+        {
+            Type = typeof(string);
+
+            MinLength = minLength;
+            MaxLength = maxLength;
+
+            Message = message;
+        }
 
         public override bool TryValidate<T>(T arg)
         {
-            if(typeof(T) == Type) throw new TypeMismatchException(expectedType: Type, actualType: typeof(T));
+            if(!ReferenceEquals(typeof(T), Type)) throw new TypeMismatchException(expectedType: Type, actualType: typeof(T));
 
             var value = arg as string;
             

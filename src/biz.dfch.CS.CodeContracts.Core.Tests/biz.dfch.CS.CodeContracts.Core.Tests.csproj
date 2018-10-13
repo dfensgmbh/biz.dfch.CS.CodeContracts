@@ -325,6 +325,7 @@
     </Compile>
     <Compile Include="Attributes\NotNullAttributeTest.cs" />
     <Compile Include="Attributes\ParameterValidationAttributeBaseTest.cs" />
+    <Compile Include="Attributes\StringLengthAttributeTest.cs" />
     <Compile Include="Exceptions\TypeMismatchExceptionTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

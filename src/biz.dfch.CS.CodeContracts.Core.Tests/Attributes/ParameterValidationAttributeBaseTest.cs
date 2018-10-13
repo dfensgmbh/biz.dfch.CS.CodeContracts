@@ -15,20 +15,48 @@
  */
 
 using System;
+using System.Linq;
 using System.Reflection;
+using System.Threading;
 using biz.dfch.CS.CodeContracts.Core.Attributes;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace biz.dfch.CS.CodeContracts.Core.Tests.Attributes
 {
+    public static class InstanceCounter
+    {
+        private static int _counter = 0;
+        public static int Count => _counter;
+
+        public static void Increment()
+        {
+            Interlocked.Increment(ref _counter);
+        }
+
+        public static void Reset()
+        {
+            _counter = 0;
+        }
+    }
+
     public class ArbitraryParameterValidationAttribute : ParameterValidationAttributeBase
     {
-        // N/A
+        public ArbitraryParameterValidationAttribute()
+        {
+            InstanceCounter.Increment();
+        }
+
+        public ArbitraryParameterValidationAttribute(string message)
+            : base(message)            
+        {
+            InstanceCounter.Increment();
+        }
     }
 
     public class ArbitraryClassToBeValidated
     {
-        public const string INVOKE_ATTRIBUTE_TEST2_MESSAGE = "arbitrary message";
+        public const string INVOKE_ATTRIBUTE_TEST_MESSAGE = "arbitrary message";
+        public const string PARAMETER_NAME = "value";
 
         [return: ArbitraryParameterValidation]
         public void InvokeAttributeTest1([ArbitraryParameterValidation] string value)
@@ -36,30 +64,81 @@ namespace biz.dfch.CS.CodeContracts.Core.Tests.Attributes
             return;
         }
 
-        public void InvokeAttributeTest2([ArbitraryParameterValidation(Message = INVOKE_ATTRIBUTE_TEST2_MESSAGE)] string value)
+        public void InvokeAttributeTest2([ArbitraryParameterValidation(Message = INVOKE_ATTRIBUTE_TEST_MESSAGE)] string value)
         {
             return;
         }
 
+        public void InvokeAttributeTest3([ArbitraryParameterValidation(INVOKE_ATTRIBUTE_TEST_MESSAGE)] string value)
+        {
+            return;
+        }
     }
 
     [TestClass]
     public class ParameterValidationAttributeBaseTest
     {
         [TestMethod]
-        public void GettingAttributeWithDefaultMessagePropertyReturnsEmptyString()
+        public void GettingAttributeWithDefaultMessagePropertyReturnsDefaultString()
         {
             // Arrange
+            InstanceCounter.Reset();
             var instance = new ArbitraryClassToBeValidated();
             var methodInfo = instance.GetType().GetMethod(nameof(ArbitraryClassToBeValidated.InvokeAttributeTest1));
             Assert.IsNotNull(methodInfo);
-            var sut = methodInfo.GetCustomAttribute<ArbitraryParameterValidationAttribute>();
+            var parameterInfo = methodInfo.GetParameters().FirstOrDefault(e => e.Name == ArbitraryClassToBeValidated.PARAMETER_NAME);
+            Assert.IsNotNull(parameterInfo);
+            Assert.AreEqual(0, InstanceCounter.Count);
+            var sut = parameterInfo.GetCustomAttribute<ArbitraryParameterValidationAttribute>();
 
             // Act
             var result = sut.Message;
 
             // Assert
-            Assert.IsTrue(string.IsNullOrWhiteSpace(result));
+            Assert.AreEqual(ValidationAttributeBase.MESSAGE_DEFAULT, result);
+            Assert.AreEqual(1, InstanceCounter.Count);
+        }
+
+        [TestMethod]
+        public void GettingAttributeWithSpecifiedMessagePropertyReturnsSpecifiedString()
+        {
+            // Arrange
+            InstanceCounter.Reset();
+            var instance = new ArbitraryClassToBeValidated();
+            var methodInfo = instance.GetType().GetMethod(nameof(ArbitraryClassToBeValidated.InvokeAttributeTest2));
+            Assert.IsNotNull(methodInfo);
+            var parameterInfo = methodInfo.GetParameters().FirstOrDefault(e => e.Name == ArbitraryClassToBeValidated.PARAMETER_NAME);
+            Assert.IsNotNull(parameterInfo);
+            Assert.AreEqual(0, InstanceCounter.Count);
+            var sut = parameterInfo.GetCustomAttribute<ArbitraryParameterValidationAttribute>();
+
+            // Act
+            var result = sut.Message;
+
+            // Assert
+            Assert.AreEqual(ArbitraryClassToBeValidated.INVOKE_ATTRIBUTE_TEST_MESSAGE, result);
+            Assert.AreEqual(1, InstanceCounter.Count);
+        }
+
+        [TestMethod]
+        public void GettingAttributeWithSpecifiedMessageInCtorReturnsSpecifiedString()
+        {
+            // Arrange
+            InstanceCounter.Reset();
+            var instance = new ArbitraryClassToBeValidated();
+            var methodInfo = instance.GetType().GetMethod(nameof(ArbitraryClassToBeValidated.InvokeAttributeTest3));
+            Assert.IsNotNull(methodInfo);
+            var parameterInfo = methodInfo.GetParameters().FirstOrDefault(e => e.Name == ArbitraryClassToBeValidated.PARAMETER_NAME);
+            Assert.IsNotNull(parameterInfo);
+            Assert.AreEqual(0, InstanceCounter.Count);
+            var sut = parameterInfo.GetCustomAttribute<ArbitraryParameterValidationAttribute>();
+
+            // Act
+            var result = sut.Message;
+
+            // Assert
+            Assert.AreEqual(ArbitraryClassToBeValidated.INVOKE_ATTRIBUTE_TEST_MESSAGE, result);
+            Assert.AreEqual(1, InstanceCounter.Count);
         }
     }
 }

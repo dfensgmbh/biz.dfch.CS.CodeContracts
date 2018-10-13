@@ -21,6 +21,15 @@ namespace biz.dfch.CS.CodeContracts.Core.Attributes
     [AttributeUsage(AttributeTargets.Parameter | AttributeTargets.ReturnValue)]
     public abstract class ParameterValidationAttributeBase : ValidationAttributeBase
     {
-        // N/A
+        protected ParameterValidationAttributeBase()
+        {
+            // N/A
+        }
+
+        protected ParameterValidationAttributeBase(string message)
+            : base(message)
+        {
+            // N/A
+        }
     }
 }

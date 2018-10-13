@@ -22,9 +22,19 @@ namespace biz.dfch.CS.CodeContracts.Core.Attributes
     {
         public const string MESSAGE_DEFAULT = "Contract validation failed.";
 
-        public virtual Type Type { get; private set; }
+        public Type Type { get; protected set; }
 
-        public virtual string Message { get; set; } = MESSAGE_DEFAULT;
+        public string Message { get; set; }
+
+        protected ValidationAttributeBase()
+        {
+            Message = MESSAGE_DEFAULT;
+        }
+
+        protected ValidationAttributeBase(string message)
+        {
+            Message = message;
+        }
 
         public virtual bool TryValidate<T>(T value)
         {
