@@ -149,6 +149,7 @@
     <Compile Include="Attributes\NotNullAttribute.cs" />
     <Compile Include="Attributes\ValidationAttributeBase.cs" />
     <Compile Include="Attributes\ICodeContractValidation.cs" />
+    <Compile Include="IAmHere.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
