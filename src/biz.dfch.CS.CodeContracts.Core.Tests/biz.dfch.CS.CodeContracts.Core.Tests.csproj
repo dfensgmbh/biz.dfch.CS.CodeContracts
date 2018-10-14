@@ -354,10 +354,19 @@
     <Compile Include="Exceptions\TypeMismatchExceptionTest.cs" />
     <Compile Include="IAmHere.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Roslyn\CodeContractsFactory.cs" />
+    <Compile Include="Roslyn\CodeContractsFactoryTest.cs" />
+    <Compile Include="Roslyn\DoSomething.cs" />
+    <Compile Include="Roslyn\Funcenstein.cs" />
+    <Compile Include="Roslyn\FuncensteinTest.cs" />
+    <Compile Include="Roslyn\IDoSomething.cs" />
+    <Compile Include="Roslyn\RoslynParse.cs" />
+    <Compile Include="Roslyn\RoslynParseTest.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
     <None Include="packages.config" />
+    <None Include="Roslyn\Funcenstein.csx" />
   </ItemGroup>
   <ItemGroup>
     <Analyzer Include="..\packages\Microsoft.CodeAnalysis.Analyzers.1.1.0\analyzers\dotnet\cs\Microsoft.CodeAnalysis.Analyzers.dll" />
