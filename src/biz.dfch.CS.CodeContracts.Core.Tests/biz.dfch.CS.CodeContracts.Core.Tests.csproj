@@ -339,6 +339,7 @@
     <Compile Include="..\CommonAssemblySettings.cs">
       <Link>Properties\CommonAssemblySettings.cs</Link>
     </Compile>
+    <Compile Include="Assertions\ConstraintTest.cs" />
     <Compile Include="Benchmark\SummaryExtensions.cs" />
     <Compile Include="Benchmark\BenchmarkBase.cs" />
     <Compile Include="Assertions\ContractAssert.cs" />
@@ -346,6 +347,7 @@
     <Compile Include="Assertions\ContractEnsures2.cs" />
     <Compile Include="Attributes\NotNullAttributeTest.cs" />
     <Compile Include="Attributes\ParameterValidationAttributeBaseTest.cs" />
+    <Compile Include="Attributes\StringLengthAttributeBenchmark.cs" />
     <Compile Include="Attributes\StringLengthAttributeTest.cs" />
     <Compile Include="Assertions\ContractRequires.cs" />
     <Compile Include="Exceptions\TypeMismatchExceptionTest.cs" />
