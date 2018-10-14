@@ -13,7 +13,7 @@
     <FileAlignment>512</FileAlignment>
     <Deterministic>true</Deterministic>
     <CodeContractsAssemblyMode>1</CodeContractsAssemblyMode>
-	</PropertyGroup>
+  </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
@@ -141,6 +141,7 @@
     <Compile Include="..\CommonAssemblySettings.cs">
       <Link>Properties\CommonAssemblySettings.cs</Link>
     </Compile>
+    <Compile Include="Attributes\RangeAttribute.cs" />
     <Compile Include="Exceptions\TypeMismatchException.cs" />
     <Compile Include="Attributes\StringLengthAttribute.cs" />
     <Compile Include="Attributes\ParameterValidationAttributeBase.cs" />
