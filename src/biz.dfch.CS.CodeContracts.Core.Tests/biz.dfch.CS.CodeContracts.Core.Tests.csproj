@@ -350,6 +350,7 @@
     <Compile Include="Attributes\StringLengthAttributeBenchmark.cs" />
     <Compile Include="Attributes\StringLengthAttributeTest.cs" />
     <Compile Include="Assertions\ContractRequires.cs" />
+    <Compile Include="Diagnostics\CastleWindowsInterceptorBenchmark.cs" />
     <Compile Include="Exceptions\TypeMismatchExceptionTest.cs" />
     <Compile Include="IAmHere.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
