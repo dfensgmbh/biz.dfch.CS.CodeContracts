@@ -15,12 +15,15 @@
  */
 
 using System;
+using System.Runtime.Remoting.Messaging;
 using biz.dfch.CS.CodeContracts.Core.Exceptions;
 
 namespace biz.dfch.CS.CodeContracts.Core.Attributes
 {
     public class StringLengthAttribute : ParameterValidationAttributeBase
     {
+        public override Type Type { get; protected set; } = typeof(string);
+
         public uint MinLength { get; }
         public uint MaxLength { get; }
 
@@ -32,8 +35,6 @@ namespace biz.dfch.CS.CodeContracts.Core.Attributes
 
         public StringLengthAttribute(uint minLength, uint maxLength)
         {
-            Type = typeof(string);
-
             MinLength = minLength;
             MaxLength = maxLength;
         }
@@ -41,22 +42,17 @@ namespace biz.dfch.CS.CodeContracts.Core.Attributes
         public StringLengthAttribute(uint minLength, uint maxLength, string message)
             : base(message)
         {
-            Type = typeof(string);
-
             MinLength = minLength;
             MaxLength = maxLength;
 
             Message = message;
         }
 
-        public override bool TryValidate<T>(T arg)
+        public override bool TryValidate<T>(T value)
         {
-            if(!ReferenceEquals(typeof(T), Type)) throw new TypeMismatchException(expectedType: Type, actualType: typeof(T));
+            var valueAsString = (string) (object) value;
 
-            var value = arg as string;
-            
-            // ReSharper disable once PossibleNullReferenceException
-            return value.Length >= MinLength && value.Length <= MaxLength;
+            return valueAsString.Length >= MinLength && valueAsString.Length <= MaxLength;
         }
     }
 }
