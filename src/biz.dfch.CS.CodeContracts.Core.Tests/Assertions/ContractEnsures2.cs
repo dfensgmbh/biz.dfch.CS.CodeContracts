@@ -16,16 +16,12 @@
 
 using System;
 using System.Diagnostics;
-using System.IO;
 using System.Linq;
 using System.Linq.Expressions;
+using biz.dfch.CS.CodeContracts.Core.Tests.Benchmark;
 using biz.dfch.CS.Testing.Attributes;
 using BenchmarkDotNet.Attributes;
-using BenchmarkDotNet.Configs;
-using BenchmarkDotNet.Reports;
 using BenchmarkDotNet.Running;
-using BenchmarkDotNet.Toolchains.InProcess;
-using BenchmarkDotNet.Validators;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace biz.dfch.CS.CodeContracts.Core.Tests.Assertions
@@ -186,48 +182,6 @@ namespace biz.dfch.CS.CodeContracts.Core.Tests.Assertions
             Assert.AreEqual(emptyString, result);
         }
 
-    }
-
-    public static class SummaryExtensions
-    {
-        public static string GetMarkdownReport(this Summary summary)
-        {
-            System.Diagnostics.Contracts.Contract.Requires(null != summary);
-            //Contract.Ensures(!string.IsNullOrWhiteSpace(Contract.Result<string>()));
-            return ContractEnsures.Result(PrivateLocal, r => !string.IsNullOrWhiteSpace(r));
-            string PrivateLocal()
-            {
-                var fileName = Path.Combine
-                (
-                    summary.ResultsDirectoryPath,
-                    string.Format("{0}-report-github.md", summary.Title)
-                );
-
-                var report = File.ReadAllText(fileName);
-                return report;
-            }
-        }
-    }
-
-    [Config(typeof(AllowNonOptimized))]
-    public abstract class BenchmarkBase
-    {
-        // https://github.com/dotnet/BenchmarkDotNet/issues/579#issuecomment-345464911
-        public class AllowNonOptimized : ManualConfig
-        {
-            public AllowNonOptimized()
-            {
-                Add(JitOptimizationsValidator.DontFailOnError); // ALLOW NON-OPTIMIZED DLLS
-                Add(GenericBenchmarksValidator.DontFailOnError);
-                Add(ExecutionValidator.DontFailOnError);
-                Add(InProcessValidator.DontFailOnError);
-                Add(ReturnValueValidator.DontFailOnError);
-
-                Add(DefaultConfig.Instance.GetLoggers().ToArray()); // manual config has no loggers by default
-                Add(DefaultConfig.Instance.GetExporters().ToArray()); // manual config has no exporters by default
-                Add(DefaultConfig.Instance.GetColumnProviders().ToArray()); // manual config has no columns by default
-            }
-        }
     }
 
     [Config(typeof(AllowNonOptimized))]
