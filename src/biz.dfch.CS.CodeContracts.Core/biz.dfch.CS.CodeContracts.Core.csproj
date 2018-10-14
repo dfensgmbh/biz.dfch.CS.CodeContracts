@@ -141,6 +141,7 @@
     <Compile Include="..\CommonAssemblySettings.cs">
       <Link>Properties\CommonAssemblySettings.cs</Link>
     </Compile>
+    <Compile Include="Assertions\Constraint.cs" />
     <Compile Include="Attributes\RangeAttribute.cs" />
     <Compile Include="Exceptions\TypeMismatchException.cs" />
     <Compile Include="Attributes\StringLengthAttribute.cs" />

@@ -133,9 +133,6 @@
     <Reference Include="biz.dfch.CS.Testing, Version=2.1.1.28499, Culture=neutral, PublicKeyToken=ddc350d26de1d0d9, processorArchitecture=MSIL">
       <HintPath>..\packages\biz.dfch.CS.Testing.2.1.1\lib\biz.dfch.CS.Testing.dll</HintPath>
     </Reference>
-    <Reference Include="biz.dfch.CS.Testing.Contracts, Version=2.1.1.28499, Culture=neutral, PublicKeyToken=ddc350d26de1d0d9, processorArchitecture=MSIL">
-      <HintPath>..\packages\biz.dfch.CS.Testing.2.1.1\lib\CodeContracts\biz.dfch.CS.Testing.Contracts.dll</HintPath>
-    </Reference>
     <Reference Include="CommandLine, Version=2.2.1.0, Culture=neutral, PublicKeyToken=de6f01bd326f8c32, processorArchitecture=MSIL">
       <HintPath>..\packages\CommandLineParser.2.2.1\lib\net45\CommandLine.dll</HintPath>
     </Reference>
@@ -323,9 +320,13 @@
     <Compile Include="..\CommonAssemblySettings.cs">
       <Link>Properties\CommonAssemblySettings.cs</Link>
     </Compile>
+    <Compile Include="Assertions\ContractAssert.cs" />
+    <Compile Include="Assertions\ContractEnsures.cs" />
+    <Compile Include="Assertions\ContractEnsures2.cs" />
     <Compile Include="Attributes\NotNullAttributeTest.cs" />
     <Compile Include="Attributes\ParameterValidationAttributeBaseTest.cs" />
     <Compile Include="Attributes\StringLengthAttributeTest.cs" />
+    <Compile Include="Assertions\ContractRequires.cs" />
     <Compile Include="Exceptions\TypeMismatchExceptionTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
